@@ -72,14 +72,24 @@ class Renderer {
     drawSlide2(framebuffer) {
         // TODO: draw at least 2 convex polygons (each with a different number of vertices >= 5)
         //   - variable `this.show_points` should be used to determine whether or not to render vertices
-        
-        
-        // Following lines are example of drawing a single triangle
-        // (this should be removed after you implement the polygon)
-        let point_a = {x:  80, y:  40};
-        let point_b = {x: 320, y: 160};
-        let point_c = {x: 240, y: 360};
-        this.drawTriangle(point_a, point_c, point_b, [0, 128, 128, 255], framebuffer);
+        if (this.show_points) {
+            this.drawVertex
+        }
+
+        let color = [0, 128, 128, 255]
+
+        let vertex_list = [{x: 100, y: 100}, {x: 150, y: 100}, 
+                            {x: 200, y: 150}, {x: 200, y: 200}, 
+                            {x: 150, y: 250}, {x: 100, y: 250}, 
+                            {x: 50, y: 200}];
+
+        this.drawConvexPolygon(vertex_list, color, framebuffer);
+
+        vertex_list = [{x: 600, y: 500}, {x: 300, y: 400}, 
+                        {x: 200, y: 350}, {x: 250, y: 200},
+                        {x: 400, y: 100}, {x: 700, y: 350}];
+
+        this.drawConvexPolygon(vertex_list, color, framebuffer);
     }
 
     // framebuffer:  canvas ctx image data
@@ -120,8 +130,9 @@ class Renderer {
     // framebuffer:  canvas ctx image data
     drawConvexPolygon(vertex_list, color, framebuffer) {
         // TODO: draw a sequence of triangles to form a convex polygon
-        
-        
+       for (let i = 1; i < vertex_list.length-1; i++) {
+            this.drawTriangle(vertex_list[0], vertex_list[i], vertex_list[i + 1], color, framebuffer);
+        }        
     }
     
     // v:            object {x: __, y: __}
