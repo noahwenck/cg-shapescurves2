@@ -61,6 +61,8 @@ class Renderer {
             for (let i = 0; i < vertex_list.length; i++) {
                 this.drawVertex(vertex_list[i], vColor, framebuffer);
                 this.drawVertex(vertex_list2[i], vColor, framebuffer);
+                
+                // Colors Vertices and Control Points differently
                 if ((i + 1) == 3) {
                     vColor = [0, 0, 0, 255];
                 }
@@ -125,36 +127,22 @@ class Renderer {
 
     // framebuffer:  canvas ctx image data
     drawSlide2(framebuffer) {
-        // TODO: draw at least 2 convex polygons (each with a different number of vertices >= 5)
-        //   - variable `this.show_points` should be used to determine whether or not to render vertices
 
-        let color = [0, 128, 128, 255]
-
+        // Setup
         let vertex_list = [{x: 100, y: 100}, {x: 150, y: 100}, 
                             {x: 200, y: 150}, {x: 200, y: 200}, 
-                            {x: 150, y: 250}, {x: 100, y: 250}, 
-                            {x: 50, y: 200}];
-        /*vertex_list = [{x: 600, y: 500}, {x: 300, y: 400}, 
-                        {x: 200, y: 350}, {x: 250, y: 200},
-                        {x: 400, y: 100}, {x: 700, y: 350}];*/
-        let vertex_list2 = [{x: 400, y: 200}, {x: 500, y: 200}, 
+                            {x: 150, y: 250}, {x: 100, y: 250},
+                            {x: 50, y: 200}, {x: 50, y: 150}];
+       let vertex_list2 = [{x: 400, y: 200}, {x: 500, y: 200}, 
                             {x: 500, y: 300}, {x: 450, y: 350},
                             {x: 350, y: 400}, {x: 325, y: 350},
                             {x: 400, y: 175}];
 
-       // this.drawConvexPolygon(vertex_list, color, framebuffer);
-        this.drawConvexPolygon(vertex_list2, color, framebuffer);
-
-            /* NOTE
-            when triangle is drawn alone, it works
-            but when using convex function it draws the incorrect triangle
-            */
-
-        console.log("test");
-        //this.drawTriangle(vertex_list2[0], vertex_list2[5], vertex_list2[6], color, framebuffer);
-        console.log("test");
-        //this.drawTriangle(vertex_list2[0], vertex_list2[5], vertex_list2[4], color, framebuffer);
-
+        // Draw Polygons
+        this.drawConvexPolygon(vertex_list, [0, 128, 128, 255], framebuffer);
+        this.drawConvexPolygon(vertex_list2, [0, 128, 128, 255], framebuffer);
+            
+        // Draw Vertices
         if (this.show_points) {
             for (let i = 0; i < vertex_list.length; i++) {
                 this.drawVertex(vertex_list[i], [0, 0, 0, 255], framebuffer);
@@ -337,13 +325,25 @@ class Renderer {
     // color:        array of int [R, G, B, A]
     // framebuffer:  canvas ctx image data
     drawConvexPolygon(vertex_list, color, framebuffer) {
-        // TODO: draw a sequence of triangles to form a convex polygon
-       for (let i = 1; i < vertex_list.length-1; i++) {
-            this.drawTriangle(vertex_list[0], vertex_list[i], vertex_list[i + 1], color, framebuffer);
-            console.log(0 + " " + i + " " + (i+1));
-            color = [40 * i, 40 * i, 40 * i, 255];
-        }    
-        //this.drawTriangle(vertex_list[0], vertex_list[vertex_list.length-1], vertex_list[vertex_list.length-2], color, framebuffer);    
+        
+
+        let poly = [];
+        for (let i = 1; i < vertex_list.length - 1; i++) {
+            poly[i] = {p1: vertex_list[i], p2: vertex_list[i+1]};
+        }
+        
+        let x0 = vertex_list[0].x;
+        let y0 = vertex_list[0].y;
+        let x1, y1, x2, y2;
+
+        for (let i = 1; i < poly.length; i++) {
+            x1 = poly[i].p1.x;
+            x2 = poly[i].p2.x;
+            y1 = poly[i].p1.y;
+            y2 = poly[i].p2.y;
+            this.drawTriangle({x: x0, y: y0}, {x: x1, y: y1}, {x: x2, y: y2}, color, framebuffer);            
+        }
+
     }
     
     // v:            object {x: __, y: __}
