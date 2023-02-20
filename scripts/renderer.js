@@ -59,7 +59,7 @@ class Renderer {
         // Draw Lines
         this.drawBezierCurve(vertex_list[0], vertex_list[1], vertex_list[2], vertex_list[3], this.num_curve_sections, color, framebuffer);
         this.drawBezierCurve(vertex_list2[0], vertex_list2[1], vertex_list2[2], vertex_list2[3], this.num_curve_sections, color, framebuffer);
-    
+
         // Draw Vertices
         if (this.show_points) {
             for (let i = 0; i < vertex_list.length; i++) {
@@ -194,7 +194,7 @@ class Renderer {
         // Draw Vertices
         if (this.show_points) {
             for (let i = 0; i < vertex_list.length; i++) {
-                if (i == 10 || i == 9 || i == 14 || i == 13) {  // control points colored differently
+                if (i == 9 || i == 10 || i == 13 || i == 14) {  // control points colored differently
                     this.drawVertex(vertex_list[i], [125, 0, 0, 255], framebuffer);
                 }
                 else {
