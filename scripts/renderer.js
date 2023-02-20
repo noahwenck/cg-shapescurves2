@@ -84,8 +84,8 @@ class Renderer {
         // Setup
         let center = {x: 400, y: 350};  // Center of Circle 1
         let radius = 200;               // Radius of Circle 1
-        let center2 = {x: 100, y: 150};
-        let radius2 = 50;
+        let center2 = {x: 100, y: 150}; // Center of Circle 2
+        let radius2 = 50;               // Radius of Circle 2
         
         // Draw Circles
         this.drawCircle(center, radius, this.num_curve_sections, [255, 125, 0, 255], framebuffer);  // Circle 1
@@ -194,7 +194,12 @@ class Renderer {
         // Draw Vertices
         if (this.show_points) {
             for (let i = 0; i < vertex_list.length; i++) {
-                this.drawVertex(vertex_list[i], [0, 0, 0, 255], framebuffer);
+                if (i == 10 || i == 9 || i == 14 || i == 13) {  // control points colored differently
+                    this.drawVertex(vertex_list[i], [125, 0, 0, 255], framebuffer);
+                }
+                else {
+                    this.drawVertex(vertex_list[i], [0, 0, 0, 255], framebuffer);
+                }
             }
         }
         
